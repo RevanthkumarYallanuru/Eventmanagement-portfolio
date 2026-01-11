@@ -1,0 +1,513 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 239 84% 67%;
+
+    --radius: 0.625rem;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 239 84% 67%;
+    --sidebar-muted: 215 16% 47%;
+
+    /* Status colors */
+    --status-draft: 215 16% 47%;
+    --status-ready: 38 92% 50%;
+    --status-live: 142 76% 36%;
+    --status-closed: 0 0% 45%;
+
+    /* Gradient */
+    --gradient-primary: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(262, 83%, 58%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(142, 76%, 36%) 0%, hsl(160, 84%, 39%) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.1), 0 2px 4px -2px hsl(222 47% 11% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.1), 0 4px 6px -4px hsl(222 47% 11% / 0.1);
+    --shadow-card: 0 1px 3px 0 hsl(222 47% 11% / 0.1), 0 1px 2px -1px hsl(222 47% 11% / 0.1);
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 239 84% 67%;
+
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 239 84% 67%;
+    --sidebar-muted: 215 20% 65%;
+  }
+}
+
+/* --- Decorative background grid + floating craft elements --- */
+@layer components {
+  /* subtle grid background using layered gradients */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+      radial-gradient(circle at 20% 10%, rgba(167,139,250,0.02) 0px, transparent 20%),
+      radial-gradient(circle at 80% 80%, rgba(244,114,182,0.02) 0px, transparent 18%);
+    background-size: 36px 36px, 36px 36px, 600px 600px, 500px 500px;
+    opacity: 0.9;
+    mix-blend-mode: overlay;
+  }
+
+  /* make sure root content renders above decorations */
+  #root { position: relative; z-index: 20; }
+
+  /* floating craft shapes placed around the viewport */
+  #site-decor { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+
+  .craft {
+    position: absolute;
+    width: 88px;
+    height: 88px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(107,33,168,0.12));
+    backdrop-filter: blur(6px);
+    transform-origin: center;
+    will-change: transform, opacity;
+    box-shadow: 0 8px 20px rgba(16,24,40,0.06);
+    animation: floatY 8s ease-in-out infinite;
+  }
+
+  .craft-1 { left: 6%; top: 10%; animation-duration:9s; }
+  .craft-2 { right: 6%; top: 22%; animation-duration:7.5s; animation-delay:1s; }
+  .craft-3 { left: 8%; bottom: 18%; animation-duration:10s; animation-delay:0.6s; }
+  .craft-4 { right: 14%; bottom: 8%; animation-duration:8.5s; animation-delay:1.2s; }
+
+  @keyframes floatY {
+    0% { transform: translateY(0) rotate(-3deg); opacity: 0.95; }
+    50% { transform: translateY(-18px) rotate(2deg) scale(1.02); opacity: 1; }
+    100% { transform: translateY(0) rotate(-3deg); opacity: 0.95; }
+  }
+
+  /* small accents inside craft elements using pseudo elements */
+  .craft::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(167,139,250,0.9), rgba(59,130,246,0.9));
+    box-shadow: 0 4px 10px rgba(59,130,246,0.12);
+    opacity: 0.95;
+  }
+
+  .craft::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    bottom: 14px;
+    width: 24px;
+    height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(244,114,182,0.9), rgba(255,183,197,0.9));
+    opacity: 0.95;
+    transform: rotate(-20deg);
+  }
+
+  /* --- Vertical ticker (Y-scrolling) --- */
+  .vertical-ticker {
+    position: relative;
+    overflow: hidden;
+    height: 220px; /* can be overridden where used */
+  }
+
+  .vertical-ticker__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: verticalScroll 12s linear infinite;
+  }
+
+  .vertical-ticker__list--clone { /* cloned copy sits after original for seamless loop */ }
+
+  .vertical-ticker:hover .vertical-ticker__list,
+  .vertical-ticker:hover .vertical-ticker__list--clone { animation-play-state: paused; }
+
+  @keyframes verticalScroll {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-50%); }
+  }
+
+  /* Horizontal infinite scroll animation for services */
+  @keyframes horizontalScroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .services-ticker {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .services-ticker__list {
+    display: flex;
+    gap: 2rem;
+    will-change: transform;
+
+    /* Horizontal manual scroll */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .services-ticker__list--clone {
+    display: flex;
+  }
+
+  .services-ticker__list > * {
+    scroll-snap-align: start;
+  }
+
+  .services-ticker::-webkit-scrollbar, .services-ticker__list::-webkit-scrollbar {
+    display: none; /* hide scrollbar for cleaner UI */
+  }
+
+  /* Horizontal infinite scroll animation for events */
+  .events-ticker {
+    display: flex; /* keep duplicated lists side-by-side */
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .events-ticker__list {
+    display: flex;
+    flex: 0 0 auto; /* prevent shrinking */
+    gap: 2rem;
+    animation: horizontalScroll 30s linear infinite;
+    will-change: transform;
+    flex-wrap: nowrap; /* force single row */
+    align-items: stretch;
+  }
+
+  .events-ticker__list--clone {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 2rem;
+    animation: horizontalScroll 30s linear infinite;
+    will-change: transform;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  .events-ticker__list--clone {
+    animation: horizontalScroll 30s linear infinite;
+  }
+
+  .events-ticker:hover .events-ticker__list,
+  .events-ticker:hover .events-ticker__list--clone {
+    animation-play-state: paused;
+  }
+
+  /* Spread gradient + blur overlay for Events section */
+  .events-gradient-spread {
+    pointer-events: none;
+    inset: 0;
+    position: absolute;
+    /* layered gradients: dark linear + purple radial spots for spread */
+    background-image: linear-gradient(180deg, rgba(1,1,1,0.06), rgba(128,0,255,0.035)),
+                      radial-gradient(600px 200px at 10% 20%, rgba(128,0,255,0.08), transparent 30%),
+                      radial-gradient(500px 180px at 90% 80%, rgba(1,1,1,0.05), transparent 35%);
+    mix-blend-mode: multiply;
+    opacity: 0.98;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: opacity 360ms ease, transform 360ms ease;
+  }
+
+  /* Optional: slightly intensify on hover for effect in large displays */
+  @media (hover: hover) {
+    .events-section:hover .events-gradient-spread { opacity: 1; transform: scale(1.01); }
+  }
+  .y-animate {
+    transform-origin: center;
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease;
+  }
+
+  .y-animate.in-view { transform: translateY(0); opacity: 1; }
+  .y-animate { transform: translateY(14px); opacity: 0; }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  /* Smooth scroll sections */
+  section {
+    scroll-margin-top: 80px;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-card;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-draft {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .status-ready {
+    @apply bg-warning/10 text-warning;
+  }
+
+  .status-live {
+    @apply bg-success/10 text-success;
+  }
+
+  .status-closed {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-200;
+  }
+
+  .sidebar-item-active {
+    @apply bg-sidebar-accent text-sidebar-foreground font-medium;
+  }
+
+  .stat-card {
+    @apply bg-card rounded-xl p-6 border border-border shadow-card hover:shadow-md transition-shadow duration-200;
+  }
+
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table th {
+    @apply text-left font-medium text-muted-foreground py-3 px-4 border-b border-border;
+  }
+
+  .data-table td {
+    @apply py-3 px-4 border-b border-border/50;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-muted/50;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground font-medium hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-foreground font-medium hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-destructive text-destructive-foreground font-medium hover:bg-destructive/90 focus:outline-none focus:ring-2 focus:ring-destructive focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-success {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-success text-success-foreground font-medium hover:bg-success/90 focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .pulse-success {
+    animation: pulseSuccess 0.5s ease-out;
+  }
+
+  @keyframes pulseSuccess {
+    0% {
+      box-shadow: 0 0 0 0 hsl(var(--success) / 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px hsl(var(--success) / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--success) / 0);
+    }
+  }
+
+  .qr-scan-overlay {
+    @apply absolute inset-0 border-4 border-primary rounded-lg;
+    animation: scanPulse 2s infinite;
+  }
+
+  @keyframes scanPulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted));
+    border-radius: 3px;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
